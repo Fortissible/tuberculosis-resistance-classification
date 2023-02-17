@@ -9,4 +9,4 @@ Tools/library used in the pipeline :
 - TensorFlow : https://github.com/tensorflow/tensorflow
 
 # Flowchart
-<img src="https://github.com/wildanfajri1alfarabi/tuberculosis-resistance-classification/img/flowchart_skripsi.png" width="480" title="pipeline flowchart">
+<img src="https://https://github.com/wildanfajri1alfarabi/tuberculosis-resistance-classification/tree/main/img/flowchart_skripsi.png" width="480" title="pipeline flowchart">
