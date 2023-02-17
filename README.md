@@ -7,3 +7,6 @@ Tools/library used in the pipeline :
 - ARIBA : https://github.com/sanger-pathogens/ariba <br>
 - scikit-learn : https://github.com/scikit-learn/scikit-learn
 - TensorFlow : https://github.com/tensorflow/tensorflow
+
+# Flowchart
+<img src="https://github.com/wildanfajri1alfarabi/tuberculosis-resistance-classification/img/flowchart_skripsi.png" width="480" title="pipeline flowchart">
