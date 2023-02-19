@@ -3,6 +3,7 @@
 
 # Tools
 Tools/library used in the pipeline :
+- Tabula : Extracting DST data from pdf files into csv
 - enaWebTools (FTP) : https://github.com/enasequence/enaBrowserTools
 - ARIBA : https://github.com/sanger-pathogens/ariba <br>
 - scikit-learn : https://github.com/scikit-learn/scikit-learn
