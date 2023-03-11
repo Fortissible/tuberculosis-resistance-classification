@@ -65,7 +65,7 @@ class DecisionTree:
         # parent node entropy
         parent_entropy = self._entropy(y)
 
-        # create child node
+        # create child nodes
         l_idxs, r_idxs = self._split(x_col, threshold)
         if len(l_idxs) == 0 or len(r_idxs) == 0:
             return 0
