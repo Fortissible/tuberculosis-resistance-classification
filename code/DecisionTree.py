@@ -49,7 +49,7 @@ class DecisionTree:
         best_gain = -1
         split_idx, split_threshold = None, None
         for feat_idx in feat_idxs:
-            x_col = x[:, feat_idx]
+            x_col = x.iloc[:, feat_idx]
             thresholds = np.unique(x_col)
             for threshold in thresholds:
                 # calc gain
@@ -81,7 +81,7 @@ class DecisionTree:
         return info_gain
 
     def _entropy(self, y):
-        hist = np.bincount(y)
+        hist = np.bincount(y.astype(int))
         ps = hist / len(y)
         return -np.sum([p * np.log(p) for p in ps if p > 0])
 
