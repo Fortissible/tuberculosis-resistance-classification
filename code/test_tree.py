@@ -3,11 +3,27 @@ from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier, export_text
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import OneHotEncoder
+from joblib import dump,load
 import numpy as np
 import pandas as pd
 from code.DecisionTree import DecisionTree
 from code.RFClassifier import RandomForest
 
+def joblib_save_model(clf,file_name):
+    dump(clf, file_name)
+
+def joblib_load_mode(file_name):
+    clf = load(file_name)
+    return clf
+
+def predit_using_saved_model(dataset,file_name):
+    x, y = dataset.iloc[:, :-1], dataset.iloc[:, -1]
+
+    clf = joblib_load_mode(file_name)
+    pred = clf.predict(x)
+
+    clf_acc = accuracy(y, pred)
+    print(clf_acc)
 
 def accuracy(y_test, y_pred):
     return np.sum(y_test == y_pred) / len(y_test)
@@ -49,7 +65,7 @@ def scratch_dt(x_train, x_test, y_train, y_test):
     print("from scratch decision tree accuracy is :", acc)
 
 
-def scikit_learn_dt(x_train, x_test, y_train, y_test, feat_names):
+def scikit_learn_dt(x_train, x_test, y_train, y_test, feat_names, save_model=False, model_name="scikit_learn_dt_model"):
     lib_clf = DecisionTreeClassifier(max_depth=100)
     lib_clf.fit(x_train, y_train)
     lib_pred = lib_clf.predict(x_test)
@@ -64,6 +80,9 @@ def scikit_learn_dt(x_train, x_test, y_train, y_test, feat_names):
 
     print("from scikit_learn decision tree accuracy is :", lib_acc)
 
+    if save_model:
+        joblib_save_model(lib_clf,model_name+'.joblib')
+
 
 def scratch_rf(x_train, x_test, y_train, y_test):
     clf = RandomForest(max_depth=100)
@@ -74,7 +93,7 @@ def scratch_rf(x_train, x_test, y_train, y_test):
     print("from scratch random forest accuracy is :", acc)
 
 
-def scikit_learn_rf(x_train, x_test, y_train, y_test, feat_names):
+def scikit_learn_rf(x_train, x_test, y_train, y_test, feat_names, save_model=False, model_name="scikit_learn_rf_model"):
     lib_clf = RandomForestClassifier(max_depth=100)
     lib_clf.fit(x_train, y_train)
     lib_pred = lib_clf.predict(x_test)
@@ -98,6 +117,9 @@ def scikit_learn_rf(x_train, x_test, y_train, y_test, feat_names):
 
     lib_acc = accuracy(y_test, lib_pred)
     print("\nfrom scikit_learn random forest accuracy is :", lib_acc)
+
+    if save_model:
+        joblib_save_model(lib_clf,model_name+'.joblib')
 
 
 if __name__ == "__main__":
@@ -136,8 +158,8 @@ if __name__ == "__main__":
 
     print("------------------ DECISION TREE ------------------")
     # scratch_dt(x_train, x_test, y_train, y_test)
-    scikit_learn_dt(x_train, x_test, y_train, y_test, feat_names)
+    scikit_learn_dt(x_train, x_test, y_train, y_test, feat_names, save_model=True, model_name="scikit_dt_inh")
 
     print("\n\n------------------ RANDOM FOREST ------------------")
     # scratch_rf(x_train, x_test, y_train, y_test)
-    scikit_learn_rf(x_train, x_test, y_train, y_test, feat_names)
+    scikit_learn_rf(x_train, x_test, y_train, y_test, feat_names, save_model=True, model_name="scikit_rf_inh")
