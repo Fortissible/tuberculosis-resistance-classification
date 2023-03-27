@@ -1,4 +1,3 @@
-from sklearn import datasets
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier, export_text
 from sklearn.ensemble import RandomForestClassifier
@@ -6,8 +5,8 @@ from sklearn.preprocessing import OneHotEncoder
 from joblib import dump,load
 import numpy as np
 import pandas as pd
-from code.DecisionTree import DecisionTree
-from code.RFClassifier import RandomForest
+from code.method.DecisionTree import DecisionTree
+from code.method.RFClassifier import RandomForest
 
 def joblib_save_model(clf,file_name):
     dump(clf, file_name)
@@ -156,13 +155,13 @@ if __name__ == "__main__":
     # Split data into train and test sets
     x, y = df.iloc[:, :-1], df.iloc[:, -1]
     x_train, x_test, y_train, y_test = train_test_split(
-        x, y, test_size=0.3, random_state=2
+        x, y, test_size=0.2, random_state=3
     )
 
     print("------------------ DECISION TREE ------------------")
-    scratch_dt(x_train, x_test, y_train, y_test)
-    # scikit_learn_dt(x_train, x_test, y_train, y_test, feat_names, save_model=True, model_name=f"scikit_dt_{resistance_type}")
+    # scratch_dt(x_train, x_test, y_train, y_test)
+    scikit_learn_dt(x_train, x_test, y_train, y_test, feat_names, save_model=False, model_name=f"scikit_dt_{resistance_type}")
 
     print("\n\n------------------ RANDOM FOREST ------------------")
-    scratch_rf(x_train, x_test, y_train, y_test)
-    # scikit_learn_rf(x_train, x_test, y_train, y_test, feat_names, save_model=True, model_name=f"scikit_rf_{resistance_type}")
+    # scratch_rf(x_train, x_test, y_train, y_test)
+    scikit_learn_rf(x_train, x_test, y_train, y_test, feat_names, save_model=False, model_name=f"scikit_rf_{resistance_type}")

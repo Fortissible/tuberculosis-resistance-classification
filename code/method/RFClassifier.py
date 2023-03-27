@@ -1,4 +1,4 @@
-from code.DecisionTree import DecisionTree
+from code.method.DecisionTree import DecisionTree
 import numpy as np
 from collections import Counter
 

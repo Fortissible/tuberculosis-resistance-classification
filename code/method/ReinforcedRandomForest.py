@@ -1,5 +1,4 @@
-from code.RFClassifier import RandomForest
-from code.FeatureEngineering import FeatureEngineering
+from code.fe.FeatureEngineering import FeatureEngineering
 
 if __name__ == "__main__":
     dir_name = "C:/Users/Wildan PC/AppData/Local/Packages/CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc"\
