@@ -11,7 +11,7 @@ class FeatureEngineering:
 
 if __name__ == "__main__":
     # Set directory of ariba run output
-    directory = "C:\\Users\\Wildan PC\\Documents\\GitHub\\tuberculosis-resistance-classification\\ariba_out\\"
+    directory = "C:\\Users\\wilda\\OneDrive\\Documents\\GitHub\\tuberculosis-resistance-classification\\ariba_out\\"
 
     # Get a class of FeatureEngineering
     data = FeatureEngineering(directory)

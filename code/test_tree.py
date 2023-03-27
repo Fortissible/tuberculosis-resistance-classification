@@ -123,11 +123,14 @@ def scikit_learn_rf(x_train, x_test, y_train, y_test, feat_names, save_model=Fal
 
 
 if __name__ == "__main__":
+    print("res_type short name list : emb, inh, pza, rif")
+    resistance_type = input("insert resistance type short name!\n")
+
     # Read dataset.csv into dataframe
-    data = pd.read_csv('amr_datasets_r_inh.csv')
+    data = pd.read_csv(f'amr_datasets_r_{resistance_type}.csv')
 
     # Drop phen_r_inh feature (duplicate class in dataset.csv)
-    data = data.drop('phen_r_inh', axis=1)
+    data = data.drop(f'phen_r_{resistance_type}', axis=1)
 
     # Copy dataframe and drop the accession number feature on the new dataframe
     data_without_acc_num = data.copy()
@@ -143,8 +146,8 @@ if __name__ == "__main__":
 
     # Combine one hot encoded line_age feature into old dataframe (dropped the not-coded line_age)
     data_without_acc_num = data_without_acc_num.drop('line_age', axis=1)
-    phenotype_df = data_without_acc_num.loc[:, 'phen_inh']
-    data_without_acc_num = data_without_acc_num.drop('phen_inh', axis=1)
+    phenotype_df = data_without_acc_num.loc[:, f'phen_{resistance_type}']
+    data_without_acc_num = data_without_acc_num.drop(f'phen_{resistance_type}', axis=1)
     df = pd.concat([data_without_acc_num, line_age_onehot_df, phenotype_df], axis=1, join='inner')
 
     # Get feature names from dataframe
@@ -153,13 +156,13 @@ if __name__ == "__main__":
     # Split data into train and test sets
     x, y = df.iloc[:, :-1], df.iloc[:, -1]
     x_train, x_test, y_train, y_test = train_test_split(
-        x, y, test_size=0.3, random_state=1
+        x, y, test_size=0.3, random_state=2
     )
 
     print("------------------ DECISION TREE ------------------")
-    # scratch_dt(x_train, x_test, y_train, y_test)
-    scikit_learn_dt(x_train, x_test, y_train, y_test, feat_names, save_model=True, model_name="scikit_dt_inh")
+    scratch_dt(x_train, x_test, y_train, y_test)
+    # scikit_learn_dt(x_train, x_test, y_train, y_test, feat_names, save_model=True, model_name=f"scikit_dt_{resistance_type}")
 
     print("\n\n------------------ RANDOM FOREST ------------------")
-    # scratch_rf(x_train, x_test, y_train, y_test)
-    scikit_learn_rf(x_train, x_test, y_train, y_test, feat_names, save_model=True, model_name="scikit_rf_inh")
+    scratch_rf(x_train, x_test, y_train, y_test)
+    # scikit_learn_rf(x_train, x_test, y_train, y_test, feat_names, save_model=True, model_name=f"scikit_rf_{resistance_type}")

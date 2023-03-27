@@ -40,9 +40,9 @@ class DecisionTree:
         best_feature, best_thresh = self._best_split(x, y, feat_idxs)
 
         # create child Node
-        l_idxs, r_idxs = self._split(x[:, best_feature], best_thresh)
-        left = self._grow_tree(x[l_idxs, :], y[l_idxs], depth + 1)
-        right = self._grow_tree(x[r_idxs, :], y[r_idxs], depth + 1)
+        l_idxs, r_idxs = self._split(x.iloc[:, best_feature], best_thresh)
+        left = self._grow_tree(x.loc[l_idxs, :], y[l_idxs], depth + 1)
+        right = self._grow_tree(x.loc[r_idxs, :], y[r_idxs], depth + 1)
         return Node(best_feature, best_thresh, left, right)
 
     def _best_split(self, x, y, feat_idxs):
@@ -86,13 +86,16 @@ class DecisionTree:
         return -np.sum([p * np.log(p) for p in ps if p > 0])
 
     def _split(self, x_col, split_threshold):
-        l_idxs = np.argwhere(x_col <= split_threshold).flatten()
-        r_idxs = np.argwhere(x_col > split_threshold).flatten()
+        l_idxs = x_col.index[np.argwhere(x_col.values <= split_threshold).flatten()]
+        r_idxs = x_col.index[np.argwhere(x_col.values > split_threshold).flatten()]
         return l_idxs, r_idxs
 
     def _most_common_label(self, y):
         counter = Counter(y)
-        return counter.most_common(1)[0][0]
+        if len(counter.most_common()) == 0 :
+            return 0
+        else :
+            return counter.most_common(1)[0][0]
 
     def predict(self, xs):
         return np.array([self._traverse_tree(x, self.root) for x in xs])
@@ -100,7 +103,6 @@ class DecisionTree:
     def _traverse_tree(self, x, node):
         if node.is_a_leaf():
             return node.value
-
         if x[node.feature] <= node.threshold:
             return self._traverse_tree(x, node.l_node)
         return self._traverse_tree(x, node.r_node)
