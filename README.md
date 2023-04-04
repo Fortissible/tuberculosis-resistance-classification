@@ -16,6 +16,7 @@ Tools/library used in the pipeline :
 
 # Current Progress 
 Goals need to be achieved :
+- Fix RF and DT model from scrap (error on nodes function)
 - Modify RF and DT classifier into MLRF and Reinforced RF.
 
 # Progress Report and Step by Step
