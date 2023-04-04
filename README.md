@@ -16,9 +16,7 @@ Tools/library used in the pipeline :
 
 # Current Progress 
 Goals need to be achieved :
-- Change File Transfer Protocol (FTP) to Fast and Secure Protocol (FASP) for using ASPERA on enaWebTools. Because the bandwidth is limited if using FTP for downloading the sequence FASTQ.
-- Feature engineering of report.tsv from ARIBA run function as a input to train RF model classifier.
-- Modify RF and DT classifier into MLRF.
+- Modify RF and DT classifier into MLRF and Reinforced RF.
 
 # Progress Report and Step by Step
 Project Repot : https://docs.google.com/document/d/1HKc87iLV8qUzujZ_jzEfRqFR9IoTSv-x7UFBGVyLq54/edit?usp=sharing
