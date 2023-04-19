@@ -9,6 +9,8 @@ Tools/library used in the pipeline :
 - scikit-learn : https://github.com/scikit-learn/scikit-learn
 - TensorFlow : https://github.com/tensorflow/tensorflow
 
+From scratch RF and DT code : https://github.com/zhaoxingfeng/RandomForest
+
 # Flowchart
 <p align="center">
 <img src="/img/flowchart_skripsi.png" width="480" title="pipeline flowchart">
