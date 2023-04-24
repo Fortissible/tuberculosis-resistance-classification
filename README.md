@@ -18,8 +18,10 @@ From scratch RF and DT code : https://github.com/zhaoxingfeng/RandomForest
 
 # Current Progress 
 Goals need to be achieved :
-- Fix RF and DT model from scrap (error on nodes function)
+- Learn about Paralel and Information Gain (Unweight, Joint, Maximum)
 - Modify RF and DT classifier into MLRF and Reinforced RF.
+- Download all the dataset
+- Create model metric (AUC etc)
 
 # Progress Report and Step by Step
 Project Repot : https://docs.google.com/document/d/1HKc87iLV8qUzujZ_jzEfRqFR9IoTSv-x7UFBGVyLq54/edit?usp=sharing
