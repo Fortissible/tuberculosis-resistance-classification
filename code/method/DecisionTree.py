@@ -101,6 +101,7 @@ class DecisionTree:
         return np.array([self._traverse_tree(x, self.root) for x in xs])
 
     def _traverse_tree(self, x, node):
+        print(x, node.feature, node.threshold)
         if node.is_a_leaf():
             return node.value
         if x[node.feature] <= node.threshold:

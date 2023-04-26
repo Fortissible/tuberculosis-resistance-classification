@@ -154,14 +154,18 @@ if __name__ == "__main__":
 
     # Split data into train and test sets
     x, y = df.iloc[:, :-1], df.iloc[:, -1]
+
     x_train, x_test, y_train, y_test = train_test_split(
         x, y, test_size=0.2, random_state=3
     )
 
-    print("------------------ DECISION TREE ------------------")
-    # scratch_dt(x_train, x_test, y_train, y_test)
-    scikit_learn_dt(x_train, x_test, y_train, y_test, feat_names, save_model=False, model_name=f"scikit_dt_{resistance_type}")
+    for yek in [x_train,x_test]:
+        print(yek)
 
-    print("\n\n------------------ RANDOM FOREST ------------------")
+    # print("------------------ DECISION TREE ------------------")
+    # scratch_dt(x_train, x_test, y_train, y_test)
+    # # scikit_learn_dt(x_train, x_test, y_train, y_test, feat_names, save_model=False, model_name=f"scikit_dt_{resistance_type}")
+    #
+    # print("\n\n------------------ RANDOM FOREST ------------------")
     # scratch_rf(x_train, x_test, y_train, y_test)
-    scikit_learn_rf(x_train, x_test, y_train, y_test, feat_names, save_model=False, model_name=f"scikit_rf_{resistance_type}")
+    # # scikit_learn_rf(x_train, x_test, y_train, y_test, feat_names, save_model=False, model_name=f"scikit_rf_{resistance_type}")
