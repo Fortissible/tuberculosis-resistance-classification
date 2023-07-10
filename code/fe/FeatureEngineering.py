@@ -11,7 +11,7 @@ class FeatureEngineering:
 
 if __name__ == "__main__":
     # Set directory of ariba run output
-    directory = "C:\\Users\\wilda\\OneDrive\\Documents\\GitHub\\tuberculosis-resistance-classification\\ariba_out\\"
+    directory = "H:\\DataSkripsi\\all_report\\"
 
     # Get a class of FeatureEngineering
     data = FeatureEngineering(directory)
@@ -21,7 +21,7 @@ if __name__ == "__main__":
     # where the gene_variant is composite of cluster and known_var_change column.
     var_list = set()
     var_list.update(["!accession"])
-    print(data.list_report)
+    #print(data.list_report)
 
     for report in data.list_report:
         df = pd.read_table(directory + report)
@@ -52,7 +52,8 @@ if __name__ == "__main__":
     # Insert all record data into row of dataframe
     for idx, report in enumerate(data.list_report):
         # Get the accession number of the report.tsv
-        accession_number = report.split('_')[3]
+        print(report)
+        accession_number = report.split('_')[0]
         df = pd.read_table(directory + report)
 
         # Get only the record that have feature "var_seq_type" == "p"
