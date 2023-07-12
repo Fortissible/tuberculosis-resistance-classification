@@ -22,4 +22,4 @@ Tools/library used in the pipeline :
 - This MLRF could be integrated with other modified RF/DT algorithm, or pipelined into other Classifier process
 
 # Progress Report and Step by Step
-Project Repot : https://docs.google.com/document/d/1HKc87iLV8qUzujZ_jzEfRqFR9IoTSv-x7UFBGVyLq54/edit?usp=sharing
+Gdocs : https://docs.google.com/document/d/1HKc87iLV8qUzujZ_jzEfRqFR9IoTSv-x7UFBGVyLq54/edit?usp=sharing
