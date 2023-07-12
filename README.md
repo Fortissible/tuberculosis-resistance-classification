@@ -8,9 +8,8 @@ Tools/library used in the pipeline :
 - FASP Aspera client : https://download.asperasoft.com/download/sw/connect/3.9.9/ibm-aspera-connect-3.9.9.177872-linux-g2.12-64.tar.gz
 - ARIBA : https://github.com/sanger-pathogens/ariba <br>
 - scikit-learn : https://github.com/scikit-learn/scikit-learn
-- TensorFlow : https://github.com/tensorflow/tensorflow
-
-From scratch RF and DT code : https://github.com/zhaoxingfeng/RandomForest
+- From scratch RF and DT code : https://github.com/zhaoxingfeng/RandomForest <br><br>
+- Other library needed in python3 is Numpy,Pandas,Bowtie,CD-HIT,sklearn,matplotlib, etc.
 
 # Flowchart
 <p align="center">
