@@ -8,8 +8,13 @@ import collections
 import pickle
 
 from joblib import Parallel, delayed
-from sklearn.model_selection import train_test_split
+
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import roc_curve, roc_auc_score
+from sklearn.datasets import load_breast_cancer
+import matplotlib.pyplot as plt
+
 from sklearn.metrics import accuracy_score
 from sklearn import tree
 from sklearn.datasets import load_iris
@@ -17,6 +22,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import KFold
 from sklearn import tree as sk_tree
+from sklearn.tree import export_graphviz
+from subprocess import call
 
 from code.method.MultiLabelRandomForest import RandomForestClassifier as MLRF
 from code.method.ReinforcedRandomForest import RandomForestClassifier as RRF
@@ -290,6 +297,9 @@ if __name__ == '__main__':
     dataFrame2 = dataFrame2.drop('!accession', axis=1)
     # dataFrame2 = dataFrame2.drop('line_age',axis=1)
 
+    dataFrame2 = dataFrame2.drop('phen_inh', axis=1)
+    dataFrame2 = dataFrame2.drop('phen_rif', axis=1)
+    dataFrame2 = dataFrame2.drop('phen_pza', axis=1)
     # dataFrame = dataFrame.sample(frac=1).reset_index(drop=True)
     dataFrame2 = dataFrame2.sample(frac=1).reset_index(drop=True)
 
@@ -315,10 +325,39 @@ if __name__ == '__main__':
     # for header in dataFrame.columns:
     #   dataFrame[header] = label_encoder.fit_transform(dataFrame[header])
 
-    x_multilabel, y_multilabel = dataFrame2.iloc[:, :-4], dataFrame2.iloc[:, -4:] #multilabel
-    # x_singlelabel, y_singlelabel = dataFrame.iloc[:, :-1], dataFrame.iloc[:, -1]  #singlelabel
+    # x_multilabel, y_multilabel = dataFrame2.iloc[:, :-4], dataFrame2.iloc[:, -4:] #multilabel
+    x_singlelabel, y_singlelabel = dataFrame2.iloc[:, :-1], dataFrame2.iloc[:, -1]  #singlelabel
+    X_train, X_test, y_train, y_test = train_test_split(x_singlelabel, y_singlelabel, test_size=0.3)
+    rf = RandomForestClassifier(n_estimators=1, max_depth=3)
+    rf.fit(X_train, y_train)
+    y_pred_prob = rf.predict_proba(X_train)[:, 1]
+    fpr, tpr, thresholds = roc_curve(y_train, y_pred_prob, pos_label=1)
+    roc_auc = roc_auc_score(y_train, y_pred_prob)
+    print(y_pred_prob, y_pred_prob.shape)
+    print(fpr,tpr,thresholds)
+    print(roc_auc)
 
-    print(x_multilabel,y_multilabel,"\n-------------------------------\n")
+    print(rf.n_classes_)
+
+    estimator = rf.estimators_[0]
+    export_graphviz(estimator, out_file='tree.dot',
+                    feature_names=x_singlelabel.columns.values,
+                    class_names=[y_singlelabel.name+"0",y_singlelabel.name+"1"],
+                    rounded=True, proportion=False,
+                    precision=2, filled=True)
+    call(['dot', '-Tpng', 'tree.dot', '-o', 'tree.png', '-Gdpi=600'])
+
+    plt.plot(fpr, tpr, label='ROC curve (area = %0.2f)' % roc_auc)
+
+    # roc curve for tpr = fpr
+    plt.plot([0, 1], [0, 1], 'k--', label='Random classifier')
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.title('ROC Curve')
+    plt.legend(loc="lower right")
+    plt.show()
+
+    # print(x_multilabel,y_multilabel,"\n-------------------------------\n")
     # print(x_singlelabel,y_singlelabel)
 
-    trainGridSO_w_KFoldCV(x_multilabel,y_multilabel)
+    # trainGridSO_w_KFoldCV(x_multilabel,y_multilabel)

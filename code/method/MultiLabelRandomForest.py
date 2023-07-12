@@ -419,13 +419,27 @@ class RandomForestClassifier(object):
 
         res = []
         probs = []
+
+        tree_rmg_list = []
+        tree_leaf_loc_list = []
+
+        tree_feature_path = []
+        for _ in range(len(self.trees)):
+            tree_rmg_list.append([])
+            tree_leaf_loc_list.append([])
+
         for _, row in dataset.iterrows():
-            preds_list = []
+            preds_list = []  # n-tree x m-label list
             # Count the prediction results of each tree,
             # and select the result with the most occurrences
             # as the final category
-            for tree in self.trees:
-                preds_list.append(tree.calc_predict_value(row))
+            for tree_idx, tree in enumerate(self.trees):
+                leaf_loc, pred, feature_path = tree.calc_predict_value(row)
+                tree_feature_path.append(feature_path)
+
+                preds_list.append(pred)
+                tree_rmg_list[tree_idx].append(pred)
+                tree_leaf_loc_list[tree_idx].append(leaf_loc)
 
             preds_list = np.array(preds_list)
             temp_res = []
@@ -437,5 +451,5 @@ class RandomForestClassifier(object):
                     ]
                 temp_res.append(pred_label[0].item())
             res.append(temp_res)
-            probs.append(preds_list)
-        return np.array(res), probs
+            # probs.append(preds_list)
+        return np.array(res), tree_rmg_list, tree_leaf_loc_list, tree_feature_path

@@ -17,14 +17,21 @@ class Tree(object):
         self.tree_left = None
         self.tree_right = None
 
-    def calc_predict_value(self, dataset):
+    def calc_predict_value(self, dataset, depth=0, leaf_loc=0, feature_path=None):
         """Find the leaf node of the sample through the recursive decision tree"""
+        if feature_path is None:
+            feature_path = []
         if self.leaf_value is not None:
-            return self.leaf_value
+            return leaf_loc, self.leaf_value, feature_path
         elif dataset[self.split_feature] <= self.split_value:
-            return self.tree_left.calc_predict_value(dataset)
+            leaf_loc -= 1*depth
+            depth += 1
+            return self.tree_left.calc_predict_value(dataset, depth, leaf_loc, feature_path)
         else:
-            return self.tree_right.calc_predict_value(dataset)
+            leaf_loc += 1*depth
+            depth += 1
+            feature_path.append(self.split_feature)
+            return self.tree_right.calc_predict_value(dataset, depth, leaf_loc, feature_path)
 
     def describe_tree(self):
         """
