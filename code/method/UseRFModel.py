@@ -22,6 +22,7 @@ from sklearn.model_selection import KFold
 from sklearn import tree as sk_tree
 from sklearn.tree import export_graphviz
 from subprocess import call
+import graphviz
 
 from sklearn.metrics import confusion_matrix, accuracy_score
 from sklearn.metrics import precision_score, recall_score, f1_score, fbeta_score
@@ -53,67 +54,75 @@ if __name__ == "__main__":
     model_list = [model_10_10_20, model_25_20_15, model_50_30_10]
     model_list_name = ["model_10_10_20", "model_25_20_15", "model_50_30_10"]
 
-    for model_idx, model in enumerate(model_list) :
-        train_pred_res, train_pred_rmg_list, train_pred_leaf_loc_list, train_tree_feature_path = model.predict(X_train)
-        test_pred_res, test_pred_rmg_list, test_pred_leaf_loc_list, test_tree_feature_path = model.predict(X_test)
+    # SKLEARN
+    clf = DecisionTreeClassifier(max_depth=10)
+    clf = clf.fit(X_train,y_train["phen_pza"])
+    y_pred = clf.predict(X_test)
 
-        all_res_train_acc = []
-        all_res_test_acc = []
+    for tree in model_list[0].trees:
+        print(tree.describe_tree(), "\n\n")
 
-        all_res_train_cmp = []
-        all_res_test_cmp = []
-
-        for col_idx, column in enumerate(y_train.columns):
-            print(f"\n\n-------Resistance {column} Model {model_list_name[model_idx]}-------")
-
-            # TRAIN
-            n_fold_gridsearch_train_acc = accuracy_score(y_train[column],train_pred_res[:, col_idx])
-            print(f"Train acc : {n_fold_gridsearch_train_acc}")
-            print("actual:\t", np.array(y_train[column]))
-            print("pred:\t", np.array(train_pred_res[:, col_idx]))
-            print(n_fold_gridsearch_train_acc)
-            all_res_train_acc.append(n_fold_gridsearch_train_acc)
-            all_res_train_cmp.append([y_train[column],
-                                      train_pred_res[:, col_idx]
-                                      ]
-                                     )
-
-            metric_confusion_matrix(
-                y_train[column],
-                train_pred_res[:, col_idx],
-                f"Train {column} Model {model_list_name[model_idx]}"
-            )
-            metric_all_score(
-                y_train[column],
-                train_pred_res[:, col_idx]
-            )
-
-            # TEST
-            n_fold_gridsearch_test_acc = accuracy_score(y_test[column], test_pred_res[:, col_idx])
-            print(f"\nTest acc {n_fold_gridsearch_test_acc}")
-            # print("actual:\t", np.array(y_test[column]))
-            # print("pred:\t", np.array(test_pred_res[:, col_idx]))
-            all_res_test_acc.append(n_fold_gridsearch_test_acc)
-            all_res_test_cmp.append([y_test[column],
-                                     test_pred_res[:, col_idx]
-                                     ]
-                                    )
-
-            metric_confusion_matrix(
-                y_test[column],
-                test_pred_res[:, col_idx],
-                f"Test-{column}-Model-{model_list_name[model_idx]}",
-                visualize=True
-            )
-
-            metric_all_score(
-                y_train[column],
-                train_pred_res[:, col_idx]
-            )
-
-        mean_test_pred_proba = metric_get_predict_proba(test_pred_leaf_loc_list, test_pred_rmg_list)
-
-        metric_roc_auc(y_test,mean_test_pred_proba, model_list_name[model_idx])
-
-        if model_idx+1 != len(model_list):
-            print(f"\n\n--------- Next Model {model_list_name[model_idx+1]} ---------")
+    # for model_idx, model in enumerate(model_list) :
+    #     train_pred_res, train_pred_rmg_list, train_pred_leaf_loc_list, train_tree_feature_path = model.predict(X_train)
+    #     test_pred_res, test_pred_rmg_list, test_pred_leaf_loc_list, test_tree_feature_path = model.predict(X_test)
+    #
+    #     all_res_train_acc = []
+    #     all_res_test_acc = []
+    #
+    #     all_res_train_cmp = []
+    #     all_res_test_cmp = []
+    #
+    #     for col_idx, column in enumerate(y_train.columns):
+    #         print(f"\n\n-------Resistance {column} Model {model_list_name[model_idx]}-------")
+    #
+    #         # TRAIN
+    #         n_fold_gridsearch_train_acc = accuracy_score(y_train[column],train_pred_res[:, col_idx])
+    #         print(f"Train acc : {n_fold_gridsearch_train_acc}")
+    #         print("actual:\t", np.array(y_train[column]))
+    #         print("pred:\t", np.array(train_pred_res[:, col_idx]))
+    #         print(n_fold_gridsearch_train_acc)
+    #         all_res_train_acc.append(n_fold_gridsearch_train_acc)
+    #         all_res_train_cmp.append([y_train[column],
+    #                                   train_pred_res[:, col_idx]
+    #                                   ]
+    #                                  )
+    #
+    #         metric_confusion_matrix(
+    #             y_train[column],
+    #             train_pred_res[:, col_idx],
+    #             f"Train {column} Model {model_list_name[model_idx]}"
+    #         )
+    #         metric_all_score(
+    #             y_train[column],
+    #             train_pred_res[:, col_idx]
+    #         )
+    #
+    #         # TEST
+    #         n_fold_gridsearch_test_acc = accuracy_score(y_test[column], test_pred_res[:, col_idx])
+    #         print(f"\nTest acc {n_fold_gridsearch_test_acc}")
+    #         # print("actual:\t", np.array(y_test[column]))
+    #         # print("pred:\t", np.array(test_pred_res[:, col_idx]))
+    #         all_res_test_acc.append(n_fold_gridsearch_test_acc)
+    #         all_res_test_cmp.append([y_test[column],
+    #                                  test_pred_res[:, col_idx]
+    #                                  ]
+    #                                 )
+    #
+    #         metric_confusion_matrix(
+    #             y_test[column],
+    #             test_pred_res[:, col_idx],
+    #             f"Test-{column}-Model-{model_list_name[model_idx]}",
+    #             visualize=True
+    #         )
+    #
+    #         metric_all_score(
+    #             y_train[column],
+    #             train_pred_res[:, col_idx]
+    #         )
+    #
+    #     mean_test_pred_proba = metric_get_predict_proba(test_pred_leaf_loc_list, test_pred_rmg_list)
+    #
+    #     metric_roc_auc(y_test,mean_test_pred_proba, model_list_name[model_idx])
+    #
+    #     if model_idx+1 != len(model_list):
+    #         print(f"\n\n--------- Next Model {model_list_name[model_idx+1]} ---------")
