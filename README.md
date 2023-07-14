@@ -1,5 +1,5 @@
 # tuberculosis-resistance-classification
- This project's for my Thesis on Bachelor and Master Cimputer Science mayor degree, and this project is a python based pipeline for classifying Mycobacterium Tuberculosis first-line drugs resistance from DNA genome sequence powered by ML model
+ This project's for my Thesis on Bachelor and Master Computer Science mayor degree, and this project is a python based pipeline for classifying Mycobacterium Tuberculosis first-line drugs resistance from DNA genome sequence powered by ML model
 
 # Tools
 Tools/library used in the pipeline :
