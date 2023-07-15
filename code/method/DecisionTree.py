@@ -39,12 +39,13 @@ class Tree(object):
         which is convenient for viewing the tree structure
         """
         if not self.tree_left and not self.tree_right:
-            leaf_info = "{leaf_value:" + str(self.leaf_value) + "}"
+            leaf_info = {"leaf_value": self.leaf_value}
             return leaf_info
         left_info = self.tree_left.describe_tree()
         right_info = self.tree_right.describe_tree()
-        tree_structure = "{split_feature:" + str(self.split_feature) + \
-                         ",split_value:" + str(self.split_value) + \
-                         ",left_tree:" + left_info + \
-                         ",right_tree:" + right_info + "}"
+        tree_structure = {"split_feature": str(self.split_feature),
+                          "split_value": + self.split_value,
+                          "left_tree": left_info,
+                          "right_tree": right_info}
         return tree_structure
+
