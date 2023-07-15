@@ -1,0 +1,615 @@
+--------------CHANGE TO SLRF MODEL--------------
+
+
+
+-------Resistance phen_inh Model model_10_10_20-------
+
+TRAINING
+
+TP 828, TN 1589, FP 417, FN 477
+Accuracy: 0.730
+Precision: 0.665
+Recall: 0.634
+F1 Score: 0.649
+Fbeta-macro Score: 0.716
+Fbeta-micro Score: 0.730
+Fbeta-weighted Score: 0.728
+
+TESTING
+
+TP 351, TN 674, FP 159, FN 235
+Accuracy: 0.722
+Precision: 0.688
+Recall: 0.599
+F1 Score: 0.641
+Fbeta-macro Score: 0.711
+Fbeta-micro Score: 0.722
+Fbeta-weighted Score: 0.719
+
+
+-------Resistance phen_rif Model model_10_10_20-------
+
+TRAINING
+
+TP 807, TN 2216, FP 51, FN 237
+Accuracy: 0.913
+Precision: 0.941
+Recall: 0.773
+F1 Score: 0.849
+Fbeta-macro Score: 0.909
+Fbeta-micro Score: 0.913
+Fbeta-weighted Score: 0.912
+
+TESTING
+
+TP 329, TN 964, FP 23, FN 103
+Accuracy: 0.911
+Precision: 0.935
+Recall: 0.762
+F1 Score: 0.839
+Fbeta-macro Score: 0.906
+Fbeta-micro Score: 0.911
+Fbeta-weighted Score: 0.910
+
+
+-------Resistance phen_emb Model model_10_10_20-------
+
+TRAINING
+
+TP 500, TN 2551, FP 90, FN 170
+Accuracy: 0.921
+Precision: 0.847
+Recall: 0.746
+F1 Score: 0.794
+Fbeta-macro Score: 0.884
+Fbeta-micro Score: 0.921
+Fbeta-weighted Score: 0.919
+
+TESTING
+
+TP 214, TN 1098, FP 44, FN 63
+Accuracy: 0.925
+Precision: 0.829
+Recall: 0.773
+F1 Score: 0.800
+Fbeta-macro Score: 0.883
+Fbeta-micro Score: 0.925
+Fbeta-weighted Score: 0.923
+
+
+-------Resistance phen_pza Model model_10_10_20-------
+
+TRAINING
+
+TP 200, TN 2835, FP 25, FN 251
+Accuracy: 0.917
+Precision: 0.889
+Recall: 0.443
+F1 Score: 0.592
+Fbeta-macro Score: 0.836
+Fbeta-micro Score: 0.917
+Fbeta-weighted Score: 0.906
+
+TESTING
+
+TP 93, TN 1221, FP 16, FN 89
+Accuracy: 0.926
+Precision: 0.853
+Recall: 0.511
+F1 Score: 0.639
+Fbeta-macro Score: 0.847
+Fbeta-micro Score: 0.926
+Fbeta-weighted Score: 0.918
+
+
+-------Resistance phen_inh Model model_25_10_20-------
+
+TRAINING
+
+TP 873, TN 1566, FP 440, FN 432
+Accuracy: 0.737
+Precision: 0.665
+Recall: 0.669
+F1 Score: 0.667
+Fbeta-macro Score: 0.724
+Fbeta-micro Score: 0.737
+Fbeta-weighted Score: 0.737
+
+TESTING
+
+TP 375, TN 670, FP 163, FN 211
+Accuracy: 0.736
+Precision: 0.697
+Recall: 0.640
+F1 Score: 0.667
+Fbeta-macro Score: 0.727
+Fbeta-micro Score: 0.736
+Fbeta-weighted Score: 0.734
+
+
+-------Resistance phen_rif Model model_25_10_20-------
+
+TRAINING
+
+TP 862, TN 2194, FP 73, FN 182
+Accuracy: 0.923
+Precision: 0.922
+Recall: 0.826
+F1 Score: 0.871
+Fbeta-macro Score: 0.916
+Fbeta-micro Score: 0.923
+Fbeta-weighted Score: 0.922
+
+TESTING
+
+TP 354, TN 959, FP 28, FN 78
+Accuracy: 0.925
+Precision: 0.927
+Recall: 0.819
+F1 Score: 0.870
+Fbeta-macro Score: 0.918
+Fbeta-micro Score: 0.925
+Fbeta-weighted Score: 0.924
+
+
+-------Resistance phen_emb Model model_25_10_20-------
+
+TRAINING
+
+TP 511, TN 2565, FP 76, FN 159
+Accuracy: 0.929
+Precision: 0.871
+Recall: 0.763
+F1 Score: 0.813
+Fbeta-macro Score: 0.897
+Fbeta-micro Score: 0.929
+Fbeta-weighted Score: 0.927
+
+TESTING
+
+TP 205, TN 1100, FP 42, FN 72
+Accuracy: 0.920
+Precision: 0.830
+Recall: 0.740
+F1 Score: 0.782
+Fbeta-macro Score: 0.877
+Fbeta-micro Score: 0.920
+Fbeta-weighted Score: 0.917
+
+
+-------Resistance phen_pza Model model_25_10_20-------
+
+TRAINING
+
+TP 195, TN 2842, FP 18, FN 256
+Accuracy: 0.917
+Precision: 0.915
+Recall: 0.432
+F1 Score: 0.587
+Fbeta-macro Score: 0.840
+Fbeta-micro Score: 0.917
+Fbeta-weighted Score: 0.907
+
+TESTING
+
+TP 85, TN 1225, FP 12, FN 97
+Accuracy: 0.923
+Precision: 0.876
+Recall: 0.467
+F1 Score: 0.609
+Fbeta-macro Score: 0.842
+Fbeta-micro Score: 0.923
+Fbeta-weighted Score: 0.914
+
+
+-------Resistance phen_inh Model model_50_25_15-------
+
+TRAINING
+
+TP 747, TN 1776, FP 230, FN 558
+Accuracy: 0.762
+Precision: 0.765
+Recall: 0.572
+F1 Score: 0.655
+Fbeta-macro Score: 0.750
+Fbeta-micro Score: 0.762
+Fbeta-weighted Score: 0.757
+
+TESTING
+
+TP 319, TN 753, FP 80, FN 267
+Accuracy: 0.755
+Precision: 0.799
+Recall: 0.544
+F1 Score: 0.648
+Fbeta-macro Score: 0.749
+Fbeta-micro Score: 0.755
+Fbeta-weighted Score: 0.752
+
+
+-------Resistance phen_rif Model model_50_25_15-------
+
+TRAINING
+
+TP 911, TN 2183, FP 84, FN 133
+Accuracy: 0.934
+Precision: 0.916
+Recall: 0.873
+F1 Score: 0.894
+Fbeta-macro Score: 0.927
+Fbeta-micro Score: 0.934
+Fbeta-weighted Score: 0.934
+
+TESTING
+
+TP 368, TN 955, FP 32, FN 64
+Accuracy: 0.932
+Precision: 0.920
+Recall: 0.852
+F1 Score: 0.885
+Fbeta-macro Score: 0.924
+Fbeta-micro Score: 0.932
+Fbeta-weighted Score: 0.932
+
+
+-------Resistance phen_emb Model model_50_25_15-------
+
+TRAINING
+
+TP 555, TN 2554, FP 87, FN 115
+Accuracy: 0.939
+Precision: 0.864
+Recall: 0.828
+F1 Score: 0.846
+Fbeta-macro Score: 0.908
+Fbeta-micro Score: 0.939
+Fbeta-weighted Score: 0.938
+
+TESTING
+
+TP 224, TN 1100, FP 42, FN 53
+Accuracy: 0.933
+Precision: 0.842
+Recall: 0.809
+F1 Score: 0.825
+Fbeta-macro Score: 0.896
+Fbeta-micro Score: 0.933
+Fbeta-weighted Score: 0.932
+
+
+-------Resistance phen_pza Model model_50_25_15-------
+
+TRAINING
+
+TP 267, TN 2823, FP 37, FN 184
+Accuracy: 0.933
+Precision: 0.878
+Recall: 0.592
+F1 Score: 0.707
+Fbeta-macro Score: 0.874
+Fbeta-micro Score: 0.933
+Fbeta-weighted Score: 0.928
+
+TESTING
+
+TP 113, TN 1219, FP 18, FN 69
+Accuracy: 0.939
+Precision: 0.863
+Recall: 0.621
+F1 Score: 0.722
+Fbeta-macro Score: 0.877
+Fbeta-micro Score: 0.939
+Fbeta-weighted Score: 0.934
+
+
+
+--------------CHANGE TO MLRF MODEL--------------
+
+
+
+-------Resistance phen_inh Model model_10_10_20-------
+
+TRAINING
+
+TP 917, TN 1547, FP 459, FN 388
+Accuracy: 0.744
+Precision: 0.666
+Recall: 0.703
+F1 Score: 0.684
+Fbeta-macro Score: 0.734
+Fbeta-micro Score: 0.744
+Fbeta-weighted Score: 0.746
+
+TESTING
+
+TP 382, TN 655, FP 178, FN 204
+Accuracy: 0.744
+Precision: 0.666
+Recall: 0.703
+F1 Score: 0.684
+Fbeta-macro Score: 0.734
+Fbeta-micro Score: 0.744
+Fbeta-weighted Score: 0.746
+
+
+-------Resistance phen_rif Model model_10_10_20-------
+
+TRAINING
+
+TP 921, TN 2163, FP 104, FN 123
+Accuracy: 0.931
+Precision: 0.899
+Recall: 0.882
+F1 Score: 0.890
+Fbeta-macro Score: 0.921
+Fbeta-micro Score: 0.931
+Fbeta-weighted Score: 0.931
+
+TESTING
+
+TP 377, TN 939, FP 48, FN 55
+Accuracy: 0.931
+Precision: 0.899
+Recall: 0.882
+F1 Score: 0.890
+Fbeta-macro Score: 0.921
+Fbeta-micro Score: 0.931
+Fbeta-weighted Score: 0.931
+
+
+-------Resistance phen_emb Model model_10_10_20-------
+
+TRAINING
+
+TP 555, TN 2553, FP 88, FN 115
+Accuracy: 0.939
+Precision: 0.863
+Recall: 0.828
+F1 Score: 0.845
+Fbeta-macro Score: 0.907
+Fbeta-micro Score: 0.939
+Fbeta-weighted Score: 0.938
+
+TESTING
+
+TP 219, TN 1103, FP 39, FN 58
+Accuracy: 0.939
+Precision: 0.863
+Recall: 0.828
+F1 Score: 0.845
+Fbeta-macro Score: 0.907
+Fbeta-micro Score: 0.939
+Fbeta-weighted Score: 0.938
+
+
+-------Resistance phen_pza Model model_10_10_20-------
+
+TRAINING
+
+TP 303, TN 2799, FP 61, FN 148
+Accuracy: 0.937
+Precision: 0.832
+Recall: 0.672
+F1 Score: 0.744
+Fbeta-macro Score: 0.875
+Fbeta-micro Score: 0.937
+Fbeta-weighted Score: 0.933
+
+TESTING
+
+TP 117, TN 1215, FP 22, FN 65
+Accuracy: 0.937
+Precision: 0.832
+Recall: 0.672
+F1 Score: 0.744
+Fbeta-macro Score: 0.875
+Fbeta-micro Score: 0.937
+Fbeta-weighted Score: 0.933
+
+
+--------- Next Model model_25_10_20 ---------
+
+
+-------Resistance phen_inh Model model_25_10_20-------
+
+TRAINING
+
+TP 938, TN 1510, FP 496, FN 367
+Accuracy: 0.739
+Precision: 0.654
+Recall: 0.719
+F1 Score: 0.685
+Fbeta-macro Score: 0.730
+Fbeta-micro Score: 0.739
+Fbeta-weighted Score: 0.743
+
+TESTING
+
+TP 405, TN 633, FP 200, FN 181
+Accuracy: 0.739
+Precision: 0.654
+Recall: 0.719
+F1 Score: 0.685
+Fbeta-macro Score: 0.730
+Fbeta-micro Score: 0.739
+Fbeta-weighted Score: 0.743
+
+
+-------Resistance phen_rif Model model_25_10_20-------
+
+TRAINING
+
+TP 935, TN 2169, FP 98, FN 109
+Accuracy: 0.937
+Precision: 0.905
+Recall: 0.896
+F1 Score: 0.900
+Fbeta-macro Score: 0.928
+Fbeta-micro Score: 0.937
+Fbeta-weighted Score: 0.937
+
+TESTING
+
+TP 383, TN 939, FP 48, FN 49
+Accuracy: 0.937
+Precision: 0.905
+Recall: 0.896
+F1 Score: 0.900
+Fbeta-macro Score: 0.928
+Fbeta-micro Score: 0.937
+Fbeta-weighted Score: 0.937
+
+
+-------Resistance phen_emb Model model_25_10_20-------
+
+TRAINING
+
+TP 572, TN 2551, FP 90, FN 98
+Accuracy: 0.943
+Precision: 0.864
+Recall: 0.854
+F1 Score: 0.859
+Fbeta-macro Score: 0.913
+Fbeta-micro Score: 0.943
+Fbeta-weighted Score: 0.943
+
+TESTING
+
+TP 226, TN 1094, FP 48, FN 51
+Accuracy: 0.943
+Precision: 0.864
+Recall: 0.854
+F1 Score: 0.859
+Fbeta-macro Score: 0.913
+Fbeta-micro Score: 0.943
+Fbeta-weighted Score: 0.943
+
+
+-------Resistance phen_pza Model model_25_10_20-------
+
+TRAINING
+
+TP 318, TN 2783, FP 77, FN 133
+Accuracy: 0.937
+Precision: 0.805
+Recall: 0.705
+F1 Score: 0.752
+Fbeta-macro Score: 0.870
+Fbeta-micro Score: 0.937
+Fbeta-weighted Score: 0.934
+
+TESTING
+
+TP 119, TN 1204, FP 33, FN 63
+Accuracy: 0.937
+Precision: 0.805
+Recall: 0.705
+F1 Score: 0.752
+Fbeta-macro Score: 0.870
+Fbeta-micro Score: 0.937
+Fbeta-weighted Score: 0.934
+
+
+--------- Next Model model_50_25_15 ---------
+
+
+-------Resistance phen_inh Model model_50_25_15-------
+
+TRAINING
+
+TP 949, TN 1518, FP 488, FN 356
+Accuracy: 0.745
+Precision: 0.660
+Recall: 0.727
+F1 Score: 0.692
+Fbeta-macro Score: 0.736
+Fbeta-micro Score: 0.745
+Fbeta-weighted Score: 0.749
+
+TESTING
+
+TP 410, TN 640, FP 193, FN 176
+Accuracy: 0.745
+Precision: 0.660
+Recall: 0.727
+F1 Score: 0.692
+Fbeta-macro Score: 0.736
+Fbeta-micro Score: 0.745
+Fbeta-weighted Score: 0.749
+
+
+-------Resistance phen_rif Model model_50_25_15-------
+
+TRAINING
+
+TP 932, TN 2168, FP 99, FN 112
+Accuracy: 0.936
+Precision: 0.904
+Recall: 0.893
+F1 Score: 0.898
+Fbeta-macro Score: 0.927
+Fbeta-micro Score: 0.936
+Fbeta-weighted Score: 0.936
+
+TESTING
+
+TP 381, TN 946, FP 41, FN 51
+Accuracy: 0.936
+Precision: 0.904
+Recall: 0.893
+F1 Score: 0.898
+Fbeta-macro Score: 0.927
+Fbeta-micro Score: 0.936
+Fbeta-weighted Score: 0.936
+
+
+-------Resistance phen_emb Model model_50_25_15-------
+
+TRAINING
+
+TP 570, TN 2549, FP 92, FN 100
+Accuracy: 0.942
+Precision: 0.861
+Recall: 0.851
+F1 Score: 0.856
+Fbeta-macro Score: 0.911
+Fbeta-micro Score: 0.942
+Fbeta-weighted Score: 0.942
+
+TESTING
+
+TP 228, TN 1099, FP 43, FN 49
+Accuracy: 0.942
+Precision: 0.861
+Recall: 0.851
+F1 Score: 0.856
+Fbeta-macro Score: 0.911
+Fbeta-micro Score: 0.942
+Fbeta-weighted Score: 0.942
+
+
+-------Resistance phen_pza Model model_50_25_15-------
+
+TRAINING
+
+TP 314, TN 2800, FP 60, FN 137
+Accuracy: 0.941
+Precision: 0.840
+Recall: 0.696
+F1 Score: 0.761
+Fbeta-macro Score: 0.882
+Fbeta-micro Score: 0.941
+Fbeta-weighted Score: 0.938
+
+TESTING
+
+TP 121, TN 1209, FP 28, FN 61
+Accuracy: 0.941
+Precision: 0.840
+Recall: 0.696
+F1 Score: 0.761
+Fbeta-macro Score: 0.882
+Fbeta-micro Score: 0.941
+Fbeta-weighted Score: 0.938
+
+Process finished with exit code 0

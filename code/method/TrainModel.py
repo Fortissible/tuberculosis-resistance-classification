@@ -27,6 +27,71 @@ from subprocess import call
 
 from code.method.MultiLabelRandomForest import RandomForestClassifier as MLRF
 from code.method.ReinforcedRandomForest import RandomForestClassifier as RRF
+from code.metric.Metric import *
+
+def train_sklearnRF_GridSO_w_KFoldCV(x_singlelabel, y_singlelabel,
+                n_est=None,
+                n_max_depth=None,
+                n_min_samples_split=None,
+                fold=5):
+
+    if n_min_samples_split is None:
+        n_min_samples_split = [20, 20, 15]
+    if n_max_depth is None:
+        n_max_depth = [10, 10, 25]
+    if n_est is None:
+        n_est = [10, 25, 50]
+
+    opt_n_estimators = n_est
+    opt_max_depth = n_max_depth
+    opt_min_samples_split = n_min_samples_split
+
+    # loop for grid search optimization
+    for p1, p2, p3 in zip(opt_n_estimators, opt_max_depth, opt_min_samples_split):
+
+        print(f"\n-------Param Model - {p1, p2, p3}-------\n")
+
+        clf = RandomForestClassifier(
+                   n_estimators=p1,
+                   max_depth=p2,
+                   min_samples_split=p3,
+                   min_samples_leaf=2,
+                   random_state=77
+                   )
+
+        """---------K-Fold_Crossvalidation w Multilabel---------"""
+
+        kfold_cv = KFold(n_splits=fold, random_state=100, shuffle=True)
+
+        # n-Fold Loop
+        for idx, (train_index, test_index) in enumerate(kfold_cv.split(x_singlelabel)):
+            x_train, x_test = x_singlelabel.iloc[train_index, :], x_singlelabel.iloc[test_index, :]
+            y_train, y_test = y_singlelabel.iloc[train_index], y_singlelabel.iloc[test_index]
+
+            clf.fit(x_train, y_train)
+
+            from sklearn import metrics
+            print(f"-------MODEL {y_singlelabel.name} FOLD - {idx}-------")
+            train_pred = clf.predict(x_train)
+            test_pred = clf.predict(x_test)
+
+            n_fold_gridsearch_train_acc = metrics.accuracy_score(y_train, train_pred)
+            print("train acc", n_fold_gridsearch_train_acc)
+
+            n_fold_gridsearch_test_acc = metrics.accuracy_score(y_test, test_pred)
+            print("test acc", n_fold_gridsearch_test_acc)
+
+        # Saving the model with current parameter grid search:
+        filename = f"model_{y_singlelabel.name}_sklearn_RF_GSO_w_KCV_param_{p1}_{p2}_{p3}.sav"
+        with open(filename, 'wb') as f:  # Python 3: open(..., 'wb')
+            pickle.dump(clf, f)
+
+    # # Saving the results:
+    # with open('train_sklearn_RF_GSO_w_KCV_results.pkl', 'wb') as f:  # Python 3: open(..., 'wb')
+    #     pickle.dump([total_train_acc, total_train_probs, total_train_cmp], f)
+    #
+    # with open('testing_sklearn_RF_GSO_w_KCV_results.pkl', 'wb') as f:  # Python 3: open(..., 'wb')
+    #     pickle.dump([total_test_acc, total_test_probs, total_test_cmp], f)
 
 def trainGridSO_w_KFoldCV(x_multilabel, y_multilabel,
                 n_est=None,
@@ -35,25 +100,15 @@ def trainGridSO_w_KFoldCV(x_multilabel, y_multilabel,
                 fold=5):
 
     if n_min_samples_split is None:
-        n_min_samples_split = [20, 20, 15, 10]
+        n_min_samples_split = [20, 20, 15]
     if n_max_depth is None:
-        n_max_depth = [10, 10, 25, 50]
+        n_max_depth = [10, 10, 25]
     if n_est is None:
-        n_est = [10, 25, 50, 100]
+        n_est = [10, 25, 50]
 
     opt_n_estimators = n_est
     opt_max_depth = n_max_depth
     opt_min_samples_split = n_min_samples_split
-
-    arr_acc_train_single = []
-    arr_acc_test_single = []
-    result_type_gsearch_kcv_test_single = []
-    result_type_gsearch_kcv_train_single = []
-
-    arr_acc_train_multi = []
-    arr_acc_test_multi = []
-    result_type_gsearch_kcv_test_multi = []
-    result_type_gsearch_kcv_train_multi = []
 
     total_train_acc = []
     total_test_acc = []
@@ -169,12 +224,12 @@ def trainGridSO_w_KFoldCV(x_multilabel, y_multilabel,
         total_train_cmp.append(fold_train_cmp)
         total_test_cmp.append(fold_test_cmp)
 
-    # Saving the results:
-    with open('train_GSO_w_KCV_results.pkl', 'wb') as f:  # Python 3: open(..., 'wb')
-        pickle.dump([total_train_acc, total_train_probs, total_train_cmp], f)
-
-    with open('testing_GSO_w_KCV_results.pkl', 'wb') as f:  # Python 3: open(..., 'wb')
-        pickle.dump([total_test_acc, total_test_probs, total_test_cmp], f)
+    # # Saving the results:
+    # with open('train_GSO_w_KCV_results.pkl', 'wb') as f:  # Python 3: open(..., 'wb')
+    #     pickle.dump([total_train_acc, total_train_probs, total_train_cmp], f)
+    #
+    # with open('testing_GSO_w_KCV_results.pkl', 'wb') as f:  # Python 3: open(..., 'wb')
+    #     pickle.dump([total_test_acc, total_test_probs, total_test_cmp], f)
 
 def trainGridSO(x_multilabel, y_multilabel,
                 n_est=None,
@@ -288,76 +343,32 @@ def trainGridSO(x_multilabel, y_multilabel,
 
 
 if __name__ == '__main__':
-    # dataFrame = pd.read_csv(f'amr_datasets_r_inh.csv',sep=",")
-    # dataFrame = dataFrame.drop('!accession', axis=1)
+
+    dataFrame = pd.read_csv(f'amr_datasets_all_class_bin.csv',sep=",")
+    dataFrame = dataFrame.drop('!accession', axis=1)
+    ##Drop lineage feature if exist (optional to drop)
     # dataFrame = dataFrame.drop('line_age',axis=1)
-    # dataFrame = dataFrame.drop('phen_r_inh',axis=1)
+    dataFrame = dataFrame.sample(frac=1).reset_index(drop=True)
 
-    dataFrame2 = pd.read_csv(f'amr_datasets_all_class_bin.csv',sep=",")
-    dataFrame2 = dataFrame2.drop('!accession', axis=1)
-    # dataFrame2 = dataFrame2.drop('line_age',axis=1)
-
-    dataFrame2 = dataFrame2.drop('phen_inh', axis=1)
-    dataFrame2 = dataFrame2.drop('phen_rif', axis=1)
-    dataFrame2 = dataFrame2.drop('phen_pza', axis=1)
-    # dataFrame = dataFrame.sample(frac=1).reset_index(drop=True)
-    dataFrame2 = dataFrame2.sample(frac=1).reset_index(drop=True)
-
-    # dataFrame = pd.DataFrame({
-    #     "Outlook":
-    #     ["S","S","O","R","R","R","O","S","S","R","S","O","O","R"],
-    #     "Temp":
-    #     ["H","H","H","M","C","C","C","M","C","M","M","M","H","M"],
-    #     "Humidity":
-    #     ["H","H","H","H","N","N","N","H","N","N","N","H","N","H"],
-    #     "Windy":
-    #     ["F","T","F","F","F","T","T","F","F","F","T","T","F","T"],
-    #     "Play":
-    #     ["F","F","T","T","T","F","T","F","T","T","T","T","T","F"]
-    # })
-
-    # create LabelEncoder object
+    ##create LabelEncoder object
     # label_encoder = LabelEncoder()
 
-    # fit and transform the categorical variable
-
+    ##fit and transform the categorical variable
     # for header in column_headers:
     # for header in dataFrame.columns:
     #   dataFrame[header] = label_encoder.fit_transform(dataFrame[header])
 
-    # x_multilabel, y_multilabel = dataFrame2.iloc[:, :-4], dataFrame2.iloc[:, -4:] #multilabel
-    x_singlelabel, y_singlelabel = dataFrame2.iloc[:, :-1], dataFrame2.iloc[:, -1]  #singlelabel
-    X_train, X_test, y_train, y_test = train_test_split(x_singlelabel, y_singlelabel, test_size=0.3)
-    rf = RandomForestClassifier(n_estimators=1, max_depth=3)
-    rf.fit(X_train, y_train)
-    y_pred_prob = rf.predict_proba(X_train)[:, 1]
-    fpr, tpr, thresholds = roc_curve(y_train, y_pred_prob, pos_label=1)
-    roc_auc = roc_auc_score(y_train, y_pred_prob)
-    print(y_pred_prob, y_pred_prob.shape)
-    print(fpr,tpr,thresholds)
-    print(roc_auc)
-
-    print(rf.n_classes_)
-
-    estimator = rf.estimators_[0]
-    export_graphviz(estimator, out_file='tree.dot',
-                    feature_names=x_singlelabel.columns.values,
-                    class_names=[y_singlelabel.name+"0",y_singlelabel.name+"1"],
-                    rounded=True, proportion=False,
-                    precision=2, filled=True)
-    call(['dot', '-Tpng', 'tree.dot', '-o', 'tree.png', '-Gdpi=600'])
-
-    plt.plot(fpr, tpr, label='ROC curve (area = %0.2f)' % roc_auc)
-
-    # roc curve for tpr = fpr
-    plt.plot([0, 1], [0, 1], 'k--', label='Random classifier')
-    plt.xlabel('False Positive Rate')
-    plt.ylabel('True Positive Rate')
-    plt.title('ROC Curve')
-    plt.legend(loc="lower right")
-    plt.show()
-
-    # print(x_multilabel,y_multilabel,"\n-------------------------------\n")
-    # print(x_singlelabel,y_singlelabel)
-
+    ##MULTILABEL
+    # x_multilabel, y_multilabel = dataFrame.iloc[:, :-4], dataFrame.iloc[:, -4:] #multilabel
     # trainGridSO_w_KFoldCV(x_multilabel,y_multilabel)
+
+    ##SINGLELABEL
+    # dataFrameSingleLabel = dataFrame.copy()
+    # dataFrameSingleLabel = dataFrameSingleLabel.drop('phen_inh', axis=1)
+    # dataFrameSingleLabel = dataFrameSingleLabel.drop('phen_rif', axis=1)
+    # dataFrameSingleLabel = dataFrameSingleLabel.drop('phen_emb', axis=1)
+    # dataFrameSingleLabel = dataFrameSingleLabel.drop('phen_pza', axis=1)
+    # for i in range(-4,0):
+    #     y_singlelabel = dataFrame.iloc[:, i]  #singlelabel
+    #     train_sklearnRF_GridSO_w_KFoldCV(dataFrameSingleLabel, y_singlelabel)
+

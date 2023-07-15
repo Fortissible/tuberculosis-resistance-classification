@@ -40,9 +40,7 @@ def metric_get_predict_proba(test_pred_leaf_loc_list, test_pred_rmg_list):
         for leaf in unique_leaf:
             leaf_idx = np.where(np.array(tree_leafs) == leaf)  # get all index of the unique leaf location
             leaf_value = np.array(test_pred_rmg_list)[tree_idx][leaf_idx]  # masih list isi 4 (resisten multilabel)
-            # print(len(leaf_value))
             sliced_leaf_value = np.array(leaf_value)[:, :, 1]
-            # print(sliced_leaf_value)
             inh_leaf_value = np.array(sliced_leaf_value[:, 0])
             inh_leaf_prob = np.count_nonzero(inh_leaf_value == 1) / len(inh_leaf_value)
             rif_leaf_value = np.array(sliced_leaf_value[:, 1])
@@ -51,14 +49,6 @@ def metric_get_predict_proba(test_pred_leaf_loc_list, test_pred_rmg_list):
             emb_leaf_prob = np.count_nonzero(emb_leaf_value == 1) / len(emb_leaf_value)
             pza_leaf_value = np.array(sliced_leaf_value[:, 3])
             pza_leaf_prob = np.count_nonzero(pza_leaf_value == 1) / len(pza_leaf_value)
-            # print(f"inh leaf: {inh_leaf_value}")
-            # print(f"inh leaf prob: {inh_leaf_prob}")
-            # print(f"rif leaf: {rif_leaf_value}")
-            # print(f"rif leaf prob: {rif_leaf_prob}")
-            # print(f"emb leaf: {emb_leaf_value}")
-            # print(f"emb leaf prob: {emb_leaf_prob}")
-            # print(f"pza leaf: {pza_leaf_value}")
-            # print(f"pza leaf prob: {pza_leaf_prob}")
             leaf_pred_proba = [inh_leaf_prob, rif_leaf_prob, emb_leaf_prob, pza_leaf_prob]
             for idx, i in enumerate(leaf_pred_proba):
                 test_pred_proba[leaf_idx, idx] += i
@@ -112,7 +102,7 @@ def metric_all_score(y_actual_class, y_pred_class):
                                                      y_pred_class,
                                                      average='weighted', beta=0.5))
 
-def metric_roc_auc(y_test, y_pred_prob, model_name=""):
+def metric_roc_auc(y_test, y_pred_prob, model_name="", model_type="MLRF"):
     figure, axis = plt.subplots(1, 1)
 
     for idx, col in enumerate(y_test.columns):
@@ -120,7 +110,7 @@ def metric_roc_auc(y_test, y_pred_prob, model_name=""):
         roc_auc = roc_auc_score(y_test[col], y_pred_prob[:,idx])
 
         # Plot the ROC curve
-        axis.plot(fpr, tpr, label=f'{col} ROC curve (area = %0.2f)' % roc_auc)
+        axis.plot(fpr, tpr, label=f'{model_type} {col} ROC curve (area = %0.3f)' % roc_auc)
         # roc curve for tpr = fpr
 
     axis.plot([0, 1], [0, 1], 'k--', label='Random classifier')
@@ -128,7 +118,7 @@ def metric_roc_auc(y_test, y_pred_prob, model_name=""):
     plt.xlabel('False Positive Rate')
     plt.ylabel('True Positive Rate')
 
-    plt.title(f'MLRF-{model_name} ROC Curve')
+    plt.title(f'{model_type}-{model_name} ROC Curve')
     plt.legend(loc="lower right")
-    plt.savefig(f'MLRF-{model_name} ROC Curve.png')
+    plt.savefig(f'{model_type}-{model_name} ROC Curve.png')
     plt.show()
