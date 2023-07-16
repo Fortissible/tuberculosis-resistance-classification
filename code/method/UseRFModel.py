@@ -36,6 +36,7 @@ from code.method.MultiLabelRandomForest import RandomForestClassifier as MLRF
 from code.method.ReinforcedRandomForest import RandomForestClassifier as RRF
 from code.metric.Metric import *
 
+
 def create_MLRFtree_visualization(data, graph, parent_node=None, left_id=0, right_id=0):
     if 'leaf_value' in data:
         leaf_node = pydot.Node(
@@ -62,10 +63,12 @@ def create_MLRFtree_visualization(data, graph, parent_node=None, left_id=0, righ
         create_MLRFtree_visualization(left_tree, graph, node, left_id=left_id+1, right_id=right_id)
         create_MLRFtree_visualization(right_tree, graph, node, left_id=left_id, right_id=right_id+1)
 
+
 def dataSplitting(dataFrame):
     x_multilabel, y_multilabel = dataFrame.iloc[:, :-4], dataFrame.iloc[:, -4:]  # multilabel
     X_train, X_test, y_train, y_test = train_test_split(x_multilabel, y_multilabel, test_size=0.3)
     return X_train, X_test, y_train, y_test
+
 
 def useSLRF(X_train, X_test, y_train, y_test):
     model_10_10_20 = []
@@ -146,17 +149,18 @@ def useSLRF(X_train, X_test, y_train, y_test):
 
         metric_roc_auc(y_test_new,mean_test_pred_proba, model_list_name[model_idx], model_type="SLRF")
 
-def printSLRFDecisionTree(X_train, X_test, y_train, y_test):
+
+def printSLRFDecisionTree(X_test, y_test):
     model_10_10_20 = []
     model_25_10_20 = []
     model_50_25_15 = []
 
     for i in range(0,4):
-        with open(f'../saved_model/model_{y_train.columns[i]}_sklearn_RF_GSO_w_KCV_param_10_10_20.sav', 'rb') as f:  # Python 3: open(..., 'rb')
+        with open(f'../saved_model/model_{y_test.columns[i]}_sklearn_RF_GSO_w_KCV_param_10_10_20.sav', 'rb') as f:  # Python 3: open(..., 'rb')
             model_10_10_20.append(pickle.load(f))
-        with open(f'../saved_model/model_{y_train.columns[i]}_sklearn_RF_GSO_w_KCV_param_25_10_20.sav', 'rb') as f:  # Python 3: open(..., 'rb')
+        with open(f'../saved_model/model_{y_test.columns[i]}_sklearn_RF_GSO_w_KCV_param_25_10_20.sav', 'rb') as f:  # Python 3: open(..., 'rb')
             model_25_10_20.append(pickle.load(f))
-        with open(f'../saved_model/model_{y_train.columns[i]}_sklearn_RF_GSO_w_KCV_param_50_25_15.sav', 'rb') as f:  # Python 3: open(..., 'rb')
+        with open(f'../saved_model/model_{y_test.columns[i]}_sklearn_RF_GSO_w_KCV_param_50_25_15.sav', 'rb') as f:  # Python 3: open(..., 'rb')
             model_50_25_15.append(pickle.load(f))
 
     model_list = [model_10_10_20, model_25_10_20, model_50_25_15]
@@ -170,9 +174,10 @@ def printSLRFDecisionTree(X_train, X_test, y_train, y_test):
                                class_names=["0","1"],
                                rounded=True, proportion=False,
                                filled=True)
-            call(['dot', '-Tpng', 'tree.dot', '-o', f'DT0 SLRF {y_train.columns[i]} Model {model_list_name[model_idx]}.png', '-Gdpi=600'])
+            call(['dot', '-Tpng', 'tree.dot', '-o', f'DT0 SLRF {y_test.columns[i]} Model {model_list_name[model_idx]}.png', '-Gdpi=600'])
 
-def printSLRFFeatureImportances(X_train, X_test, y_train, y_test):
+
+def printSLRFFeatureImportances(X_train ,y_train):
     model_10_10_20 = []
     model_25_10_20 = []
     model_50_25_15 = []
@@ -193,14 +198,25 @@ def printSLRFFeatureImportances(X_train, X_test, y_train, y_test):
 
     for model_idx, model in enumerate(model_list):
         for i in range(0, 4):
-            print(model[i].feature_importances_)
+            print(len(model[i].feature_importances_), model[i].feature_importances_)
             print("\n\n")
+            importances = model[i].feature_importances_
+
+            std = np.std([model_tree.feature_importances_ for model_tree in model[i].estimators_], axis=0)
+            std = (np.sort(std)[::-1])[:20]
+            forest_importances = pd.Series(importances, index=X_train.columns)
+            forest_importances = forest_importances.sort_values(ascending=False)[:20]
+
+            fig, ax = plt.subplots()
+            forest_importances.plot.bar(yerr=std, ax=ax)
+            ax.set_title(f"SLRF {model_list_name[model_idx]} {y_train.columns[i]} Feature importances using MDI")
+            ax.set_ylabel("Mean decrease in impurity")
+            fig.tight_layout()
+            plt.savefig(f'SLRF {model_list_name[model_idx]} {y_train.columns[i]} Feature importances using MDI.png')
+            plt.show()
+
 
 def useMLRF(X_train, X_test, y_train, y_test):
-
-    model_10_10_20 = None
-    model_25_10_20 = None
-    model_50_25_15 = None
 
     with open('../saved_model/model_GSO_w_KCV_param_10_10_20.sav', 'rb') as f:  # Python 3: open(..., 'rb')
         model_10_10_20 = pickle.load(f)
@@ -262,10 +278,8 @@ def useMLRF(X_train, X_test, y_train, y_test):
         if model_idx+1 != len(model_list):
             print(f"\n\n--------- Next Model {model_list_name[model_idx+1]} ---------")
 
-def printMLRFDecisionTree(X_train, X_test, y_train, y_test):
-    model_10_10_20 = None
-    model_25_10_20 = None
-    model_50_25_15 = None
+
+def printMLRFDecisionTree():
 
     with open('../saved_model/model_GSO_w_KCV_param_10_10_20.sav', 'rb') as f:  # Python 3: open(..., 'rb')
         model_10_10_20 = pickle.load(f)
@@ -313,6 +327,7 @@ def printMLRFDecisionTree(X_train, X_test, y_train, y_test):
         print(graph,"\n\n")
         graph.write_png(f'MLRF_Model_{model_list_name[model_idx]}_tree_example.png')
 
+
 def printMLRFFeatureImportances(X_train, X_test, y_train, y_test):
     model_10_10_20 = None
     model_25_10_20 = None
@@ -333,15 +348,38 @@ def printMLRFFeatureImportances(X_train, X_test, y_train, y_test):
     for model_idx, model in enumerate(model_list):
         print(model.feature_importances_)
 
+
 if __name__ == "__main__":
     dataFrame = pd.read_csv(f'amr_datasets_all_class_bin.csv', sep=",")
     dataFrame = dataFrame.drop('!accession', axis=1)
     dataFrame = dataFrame.sample(frac=1).reset_index(drop=True)
 
-    X_train, X_test, y_train, y_test = dataSplitting(dataFrame)
+    # fit and transform the categorical variable
+    encoded = pd.get_dummies(dataFrame["lineage"], prefix="lineage")
+    print(encoded)
 
-    printMLRFDecisionTree(X_train, X_test, y_train, y_test)
+    # Drop lineage feature if exist (optional to drop)
+    classes = dataFrame.iloc[:, -4:]
+    print(classes)
 
-    # useSLRF(X_train, X_test, y_train, y_test)
-    # printSLRFDecisionTree(X_train, X_test, y_train, y_test)
+    dataFrame = dataFrame.drop('lineage', axis=1)
+    dataFrame = dataFrame.drop('phen_inh', axis=1)
+    dataFrame = dataFrame.drop('phen_rif', axis=1)
+    dataFrame = dataFrame.drop('phen_emb', axis=1)
+    dataFrame = dataFrame.drop('phen_pza', axis=1)
+    dataFrame_new = pd.concat([dataFrame, encoded, classes], axis=1, join='inner', copy=True)
+    print(dataFrame_new)
+
+    X_train, X_test, y_train, y_test = dataSplitting(dataFrame_new)
+
+    print(y_train.columns.to_list)
+
+    printSLRFFeatureImportances(X_train, y_train)
+
     # useMLRF(X_train, X_test, y_train, y_test)
+    # useSLRF(X_train, X_test, y_train, y_test)
+
+    # printMLRFDecisionTree()
+    # printSLRFDecisionTree(X_test, y_test)
+
+

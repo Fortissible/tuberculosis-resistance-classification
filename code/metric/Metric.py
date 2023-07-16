@@ -83,22 +83,22 @@ def metric_confusion_matrix(y_actual_class, y_pred_class, figure_name, visualize
         plt.show()
 
 def metric_all_score(y_actual_class, y_pred_class):
-    print('Accuracy: %.3f' % accuracy_score(y_actual_class,
+    print('Accuracy:\t%.3f' % accuracy_score(y_actual_class,
                                             y_pred_class))
-    print('Precision: %.3f' % precision_score(y_actual_class,
+    print('Precision:\t%.3f' % precision_score(y_actual_class,
                                               y_pred_class))
-    print('Recall: %.3f' % recall_score(y_actual_class,
+    print('Recall:\t%.3f' % recall_score(y_actual_class,
                                         y_pred_class))
-    print('F1 Score: %.3f' % f1_score(y_actual_class,
+    print('F1 Score:\t%.3f' % f1_score(y_actual_class,
                                       y_pred_class))
 
-    print('Fbeta-macro Score: %.3f' % fbeta_score(y_actual_class,
+    print('Fbeta-macro Score:\t%.3f' % fbeta_score(y_actual_class,
                                                   y_pred_class,
                                                   average='macro', beta=0.5))
-    print('Fbeta-micro Score: %.3f' % fbeta_score(y_actual_class,
+    print('Fbeta-micro Score:\t%.3f' % fbeta_score(y_actual_class,
                                                   y_pred_class,
                                                   average='micro', beta=0.5))
-    print('Fbeta-weighted Score: %.3f' % fbeta_score(y_actual_class,
+    print('Fbeta-weighted Score:\t%.3f' % fbeta_score(y_actual_class,
                                                      y_pred_class,
                                                      average='weighted', beta=0.5))
 

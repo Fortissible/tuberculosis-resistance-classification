@@ -1,0 +1,31 @@
+from top :
+katG_S315G
+pncA_H51Q
+embB_M306T
+pncA_H57Q
+pnca_D12N
+MTB_Rv1258c_S292L
+pncA_G97S
+katG_N660D
+ethA_H102P
+embB_G406D
+rpsL_K88Q
+pncA_W68G
+
+
+from bottom :
+gyrA_D95Y
+katG_S315N
+folC_I43A
+gidB_A183E
+rpsL_K88Q
+ethA_N345K
+embB_G406D
+embB_G406A
+embB_Q497R
+pncA_S164P
+gidB_A183E
+ethA_L267V
+pncA_A146T
+pncA_N118T
+embB_M306I

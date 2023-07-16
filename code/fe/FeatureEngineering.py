@@ -28,6 +28,8 @@ if __name__ == "__main__":
 
         # Get only the record that have feature "var_seq_type" == "p"
         df = df[df["var_seq_type"] == "p"]
+        df = df[df["var_type"] == "SNP"]
+        df = df[df["known_var_change"] != "."]
 
         # Choose only specified column into new dataframe
         df_feat = df[["cluster", "var_type", "var_seq_type", "known_var_change"]]
@@ -58,6 +60,8 @@ if __name__ == "__main__":
 
         # Get only the record that have feature "var_seq_type" == "p"
         df = df[df["var_seq_type"] == "p"]
+        df = df[df["var_type"] == "SNP"]
+        df = df[df["known_var_change"] != "."]
 
         # Choose only specified column into new dataframe
         df_feat = df[["cluster", "var_type", "var_seq_type", "known_var_change"]]

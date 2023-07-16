@@ -19,7 +19,6 @@ from sklearn.metrics import accuracy_score
 from sklearn import tree
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import KFold
 from sklearn import tree as sk_tree
 from sklearn.tree import export_graphviz
@@ -124,15 +123,6 @@ def trainGridSO_w_KFoldCV(x_multilabel, y_multilabel,
 
         print(f"\n-------Param Model - {p1, p2, p3}-------\n")
 
-        fold_train_acc = []
-        fold_test_acc = []
-
-        fold_train_prob = []
-        fold_test_prob = []
-
-        fold_train_cmp = []
-        fold_test_cmp = []
-
         clf = MLRF(n_estimators=p1,
                    max_depth=p2,
                    min_samples_split=p3,
@@ -158,7 +148,7 @@ def trainGridSO_w_KFoldCV(x_multilabel, y_multilabel,
             x_multi_datasets_test = []
 
             # copy dataset into n-label similar dataset
-            for i in y_multilabel.columns:
+            for _ in y_multilabel.columns:
                 x_multi_datasets_train.append(x_train)
                 x_multi_datasets_test.append(x_test)
 
@@ -166,63 +156,24 @@ def trainGridSO_w_KFoldCV(x_multilabel, y_multilabel,
 
             from sklearn import metrics
             print(f"-------MODEL FOLD - {idx}-------")
-            train_pred_res, train_pred_probs = clf.predict(x_train)
-            test_pred_res, test_pred_probs = clf.predict(x_test)
+            train_pred_res, train_pred_rmg_list, train_pred_leaf_loc_list, train_tree_feature_path = clf.predict(x_train)
+            test_pred_res, test_pred_rmg_list, test_pred_leaf_loc_list, test_tree_feature_path = clf.predict(x_test)
 
-            all_res_train_acc = []
-            all_res_test_acc = []
-
-            all_res_train_cmp = []
-            all_res_test_cmp = []
 
             # all phenotype resistance accuracy loop
             for col_idx, column in enumerate(y_train.columns):
                 print(f"-------Resistance {column}-------")
 
-                print("train acc")
-                print("actual:\t", np.array(y_train[column]))
-                print("pred:\t", np.array(train_pred_res[:, col_idx]))
                 n_fold_gridsearch_train_acc = metrics.accuracy_score(y_train[column], train_pred_res[:, col_idx])
-                print(n_fold_gridsearch_train_acc)
-                all_res_train_acc.append(n_fold_gridsearch_train_acc)
-                all_res_train_cmp.append([y_train[column],
-                                          train_pred_res[:, col_idx]
-                                          ]
-                                         )
+                print("train acc", n_fold_gridsearch_train_acc)
 
-                print("test acc")
-                print("actual:\t", np.array(y_test[column]))
-                print("pred:\t", np.array(test_pred_res[:, col_idx]))
                 n_fold_gridsearch_test_acc = metrics.accuracy_score(y_test[column], test_pred_res[:, col_idx])
-                print(n_fold_gridsearch_test_acc)
-                all_res_test_acc.append(n_fold_gridsearch_test_acc)
-                all_res_test_cmp.append([y_test[column],
-                                         test_pred_res[:, col_idx]
-                                         ]
-                                        )
-
-            fold_train_acc.append(all_res_train_acc)
-            fold_test_acc.append(all_res_test_acc)
-
-            fold_train_prob.append(train_pred_probs)
-            fold_test_prob.append(test_pred_probs)
-
-            fold_train_cmp.append(all_res_train_cmp)
-            fold_test_cmp.append(all_res_test_cmp)
+                print("test acc", n_fold_gridsearch_test_acc)
 
         # Saving the model with current parameter grid search:
         filename = f"model_GSO_w_KCV_param_{p1}_{p2}_{p3}.sav"
         with open(filename, 'wb') as f:  # Python 3: open(..., 'wb')
             pickle.dump(clf, f)
-
-        total_train_acc.append(fold_train_acc)
-        total_test_acc.append(fold_test_acc)
-
-        total_train_probs.append(fold_train_prob)
-        total_test_probs.append(fold_test_prob)
-
-        total_train_cmp.append(fold_train_cmp)
-        total_test_cmp.append(fold_test_cmp)
 
     # # Saving the results:
     # with open('train_GSO_w_KCV_results.pkl', 'wb') as f:  # Python 3: open(..., 'wb')
@@ -343,32 +294,37 @@ def trainGridSO(x_multilabel, y_multilabel,
 
 
 if __name__ == '__main__':
-
     dataFrame = pd.read_csv(f'amr_datasets_all_class_bin.csv',sep=",")
     dataFrame = dataFrame.drop('!accession', axis=1)
-    ##Drop lineage feature if exist (optional to drop)
-    # dataFrame = dataFrame.drop('line_age',axis=1)
     dataFrame = dataFrame.sample(frac=1).reset_index(drop=True)
 
-    ##create LabelEncoder object
-    # label_encoder = LabelEncoder()
+    #fit and transform the categorical variable
+    encoded = pd.get_dummies(dataFrame["lineage"], prefix="lineage")
+    print(encoded)
 
-    ##fit and transform the categorical variable
-    # for header in column_headers:
-    # for header in dataFrame.columns:
-    #   dataFrame[header] = label_encoder.fit_transform(dataFrame[header])
+    #Drop lineage feature if exist (optional to drop)
+    classes = dataFrame.iloc[:, -4:]
+    print(classes)
 
-    ##MULTILABEL
-    # x_multilabel, y_multilabel = dataFrame.iloc[:, :-4], dataFrame.iloc[:, -4:] #multilabel
-    # trainGridSO_w_KFoldCV(x_multilabel,y_multilabel)
+    dataFrame = dataFrame.drop('lineage', axis=1)
+    dataFrame = dataFrame.drop('phen_inh', axis=1)
+    dataFrame = dataFrame.drop('phen_rif', axis=1)
+    dataFrame = dataFrame.drop('phen_emb', axis=1)
+    dataFrame = dataFrame.drop('phen_pza', axis=1)
+    dataFrame_new = pd.concat([dataFrame, encoded, classes], axis=1, join='inner', copy=True)
+    print(dataFrame_new)
 
-    ##SINGLELABEL
-    # dataFrameSingleLabel = dataFrame.copy()
-    # dataFrameSingleLabel = dataFrameSingleLabel.drop('phen_inh', axis=1)
-    # dataFrameSingleLabel = dataFrameSingleLabel.drop('phen_rif', axis=1)
-    # dataFrameSingleLabel = dataFrameSingleLabel.drop('phen_emb', axis=1)
-    # dataFrameSingleLabel = dataFrameSingleLabel.drop('phen_pza', axis=1)
-    # for i in range(-4,0):
-    #     y_singlelabel = dataFrame.iloc[:, i]  #singlelabel
-    #     train_sklearnRF_GridSO_w_KFoldCV(dataFrameSingleLabel, y_singlelabel)
+    #MULTILABEL
+    x_multilabel, y_multilabel = dataFrame_new.iloc[:, :-4], dataFrame_new.iloc[:, -4:] #multilabel
+    trainGridSO_w_KFoldCV(x_multilabel, y_multilabel)
+
+    #SINGLELABEL
+    dataFrameSingleLabel = dataFrame_new.copy()
+    dataFrameSingleLabel = dataFrameSingleLabel.drop('phen_inh', axis=1)
+    dataFrameSingleLabel = dataFrameSingleLabel.drop('phen_rif', axis=1)
+    dataFrameSingleLabel = dataFrameSingleLabel.drop('phen_emb', axis=1)
+    dataFrameSingleLabel = dataFrameSingleLabel.drop('phen_pza', axis=1)
+    for i in range(-4,0):
+        y_singlelabel = dataFrame_new.iloc[:, i]  #singlelabel
+        train_sklearnRF_GridSO_w_KFoldCV(dataFrameSingleLabel, y_singlelabel)
 
