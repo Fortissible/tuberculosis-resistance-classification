@@ -316,7 +316,7 @@ if __name__ == '__main__':
 
     #MULTILABEL
     x_multilabel, y_multilabel = dataFrame.iloc[:, :-4], dataFrame.iloc[:, -4:] #multilabel
-    # trainGridSO_w_KFoldCV(x_multilabel, y_multilabel)
+    trainGridSO_w_KFoldCV(x_multilabel, y_multilabel)
 
     #SINGLELABEL
     dataFrameSingleLabel = dataFrame.copy()
