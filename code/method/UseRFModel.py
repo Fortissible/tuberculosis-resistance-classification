@@ -350,36 +350,36 @@ def printMLRFFeatureImportances(X_train, X_test, y_train, y_test):
 
 
 if __name__ == "__main__":
-    dataFrame = pd.read_csv(f'amr_datasets_all_class_bin.csv', sep=",")
+    dataFrame = pd.read_csv(f'dataset_all_nolineage_nospecies.csv', sep=",")
     dataFrame = dataFrame.drop('!accession', axis=1)
     dataFrame = dataFrame.sample(frac=1).reset_index(drop=True)
 
-    # fit and transform the categorical variable
-    encoded = pd.get_dummies(dataFrame["lineage"], prefix="lineage")
-    print(encoded)
+    # # fit and transform the categorical variable
+    # encoded = pd.get_dummies(dataFrame["lineage"], prefix="lineage")
+    # print(encoded)
+    #
+    # # Drop lineage feature if exist (optional to drop)
+    # classes = dataFrame.iloc[:, -4:]
+    # print(classes)
+    #
+    # dataFrame = dataFrame.drop('lineage', axis=1)
+    # dataFrame = dataFrame.drop('phen_inh', axis=1)
+    # dataFrame = dataFrame.drop('phen_rif', axis=1)
+    # dataFrame = dataFrame.drop('phen_emb', axis=1)
+    # dataFrame = dataFrame.drop('phen_pza', axis=1)
+    # dataFrame_new = pd.concat([dataFrame, encoded, classes], axis=1, join='inner', copy=True)
+    # print(dataFrame_new)
 
-    # Drop lineage feature if exist (optional to drop)
-    classes = dataFrame.iloc[:, -4:]
-    print(classes)
-
-    dataFrame = dataFrame.drop('lineage', axis=1)
-    dataFrame = dataFrame.drop('phen_inh', axis=1)
-    dataFrame = dataFrame.drop('phen_rif', axis=1)
-    dataFrame = dataFrame.drop('phen_emb', axis=1)
-    dataFrame = dataFrame.drop('phen_pza', axis=1)
-    dataFrame_new = pd.concat([dataFrame, encoded, classes], axis=1, join='inner', copy=True)
-    print(dataFrame_new)
-
-    X_train, X_test, y_train, y_test = dataSplitting(dataFrame_new)
+    X_train, X_test, y_train, y_test = dataSplitting(dataFrame)
 
     print(y_train.columns.to_list)
 
     printSLRFFeatureImportances(X_train, y_train)
 
-    # useMLRF(X_train, X_test, y_train, y_test)
-    # useSLRF(X_train, X_test, y_train, y_test)
+    useMLRF(X_train, X_test, y_train, y_test)
+    useSLRF(X_train, X_test, y_train, y_test)
 
-    # printMLRFDecisionTree()
-    # printSLRFDecisionTree(X_test, y_test)
+    printMLRFDecisionTree()
+    printSLRFDecisionTree(X_test, y_test)
 
 

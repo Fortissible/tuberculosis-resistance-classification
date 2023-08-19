@@ -294,37 +294,37 @@ def trainGridSO(x_multilabel, y_multilabel,
 
 
 if __name__ == '__main__':
-    dataFrame = pd.read_csv(f'amr_datasets_all_class_bin.csv',sep=",")
+    dataFrame = pd.read_csv(f'dataset_all_nolineage_nospecies.csv',sep=",")
     dataFrame = dataFrame.drop('!accession', axis=1)
     dataFrame = dataFrame.sample(frac=1).reset_index(drop=True)
 
     #fit and transform the categorical variable
-    encoded = pd.get_dummies(dataFrame["lineage"], prefix="lineage")
-    print(encoded)
+    # encoded = pd.get_dummies(dataFrame["lineage"], prefix="lineage")
+    # print(encoded)
 
     #Drop lineage feature if exist (optional to drop)
-    classes = dataFrame.iloc[:, -4:]
-    print(classes)
-
-    dataFrame = dataFrame.drop('lineage', axis=1)
-    dataFrame = dataFrame.drop('phen_inh', axis=1)
-    dataFrame = dataFrame.drop('phen_rif', axis=1)
-    dataFrame = dataFrame.drop('phen_emb', axis=1)
-    dataFrame = dataFrame.drop('phen_pza', axis=1)
-    dataFrame_new = pd.concat([dataFrame, encoded, classes], axis=1, join='inner', copy=True)
-    print(dataFrame_new)
+    # classes = dataFrame.iloc[:, -4:]
+    # print(classes)
+    #
+    # dataFrame = dataFrame.drop('lineage', axis=1)
+    # dataFrame = dataFrame.drop('phen_inh', axis=1)
+    # dataFrame = dataFrame.drop('phen_rif', axis=1)
+    # dataFrame = dataFrame.drop('phen_emb', axis=1)
+    # dataFrame = dataFrame.drop('phen_pza', axis=1)
+    # dataFrame_new = pd.concat([dataFrame, encoded, classes], axis=1, join='inner', copy=True)
+    # print(dataFrame_new)
 
     #MULTILABEL
-    x_multilabel, y_multilabel = dataFrame_new.iloc[:, :-4], dataFrame_new.iloc[:, -4:] #multilabel
-    trainGridSO_w_KFoldCV(x_multilabel, y_multilabel)
+    x_multilabel, y_multilabel = dataFrame.iloc[:, :-4], dataFrame.iloc[:, -4:] #multilabel
+    # trainGridSO_w_KFoldCV(x_multilabel, y_multilabel)
 
     #SINGLELABEL
-    dataFrameSingleLabel = dataFrame_new.copy()
+    dataFrameSingleLabel = dataFrame.copy()
     dataFrameSingleLabel = dataFrameSingleLabel.drop('phen_inh', axis=1)
     dataFrameSingleLabel = dataFrameSingleLabel.drop('phen_rif', axis=1)
     dataFrameSingleLabel = dataFrameSingleLabel.drop('phen_emb', axis=1)
     dataFrameSingleLabel = dataFrameSingleLabel.drop('phen_pza', axis=1)
     for i in range(-4,0):
-        y_singlelabel = dataFrame_new.iloc[:, i]  #singlelabel
+        y_singlelabel = dataFrame.iloc[:, i]  #singlelabel
         train_sklearnRF_GridSO_w_KFoldCV(dataFrameSingleLabel, y_singlelabel)
 
