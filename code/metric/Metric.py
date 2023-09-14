@@ -86,11 +86,11 @@ def metric_all_score(y_actual_class, y_pred_class):
     print('Accuracy:\t%.3f' % accuracy_score(y_actual_class,
                                             y_pred_class))
     print('Precision:\t%.3f' % precision_score(y_actual_class,
-                                              y_pred_class))
+                                              y_pred_class,))
     print('Recall:\t%.3f' % recall_score(y_actual_class,
-                                        y_pred_class))
+                                        y_pred_class,))
     print('F1 Score:\t%.3f' % f1_score(y_actual_class,
-                                      y_pred_class))
+                                      y_pred_class,))
 
     print('Fbeta-macro Score:\t%.3f' % fbeta_score(y_actual_class,
                                                   y_pred_class,
